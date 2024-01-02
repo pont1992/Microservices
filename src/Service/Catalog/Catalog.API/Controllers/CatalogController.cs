@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
 {
+    [ApiController]
+    [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
         private readonly ILogger<CatalogController> _logger;
         public CatalogController(IProductRepository productRepository, ILogger<CatalogController> logger)
         {
-            _logger = logger;
-            _productRepository = productRepository;
-
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet]
